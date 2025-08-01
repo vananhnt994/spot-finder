@@ -1,62 +1,50 @@
+// src/data/mockData.ts
+
 import { Room, Booking } from '@/types/booking';
 
 export const mockRooms: Room[] = [
-  // Conference Rooms (Large)
-  { id: 'conf-1', name: 'Boardroom Alpha', capacity: 20, amenities: ['Projector', 'Whiteboard', 'Video Conference'], status: 'available', x: 50, y: 50, width: 120, height: 80, floor: '2nd Floor' },
-  { id: 'conf-2', name: 'Executive Suite', capacity: 16, amenities: ['Smart TV', 'Whiteboard', 'Coffee Machine'], status: 'booked', x: 200, y: 50, width: 120, height: 80, floor: '2nd Floor' },
-  { id: 'conf-3', name: 'Innovation Hub', capacity: 12, amenities: ['Digital Whiteboard', 'Wireless Display'], status: 'available', x: 350, y: 50, width: 100, height: 80, floor: '2nd Floor' },
-  
-  // Meeting Rooms (Medium)
-  { id: 'meet-1', name: 'Sync Room 1', capacity: 8, amenities: ['Monitor', 'Whiteboard'], status: 'partial', x: 50, y: 170, width: 75, height: 60, floor: '2nd Floor' },
-  { id: 'meet-2', name: 'Sync Room 2', capacity: 8, amenities: ['Monitor', 'Whiteboard'], status: 'available', x: 140, y: 170, width: 75, height: 60, floor: '2nd Floor' },
-  { id: 'meet-3', name: 'Sync Room 3', capacity: 6, amenities: ['TV Screen', 'Whiteboard'], status: 'booked', x: 230, y: 170, width: 75, height: 60, floor: '2nd Floor' },
-  { id: 'meet-4', name: 'Sync Room 4', capacity: 6, amenities: ['Monitor'], status: 'available', x: 320, y: 170, width: 75, height: 60, floor: '2nd Floor' },
-  
-  // Phone Booths (Small)
-  { id: 'phone-1', name: 'Phone Booth 1', capacity: 1, amenities: ['Soundproof'], status: 'available', x: 470, y: 50, width: 35, height: 35, floor: '2nd Floor' },
-  { id: 'phone-2', name: 'Phone Booth 2', capacity: 1, amenities: ['Soundproof'], status: 'booked', x: 515, y: 50, width: 35, height: 35, floor: '2nd Floor' },
-  { id: 'phone-3', name: 'Phone Booth 3', capacity: 1, amenities: ['Soundproof'], status: 'available', x: 560, y: 50, width: 35, height: 35, floor: '2nd Floor' },
-  { id: 'phone-4', name: 'Phone Booth 4', capacity: 1, amenities: ['Soundproof'], status: 'available', x: 470, y: 95, width: 35, height: 35, floor: '2nd Floor' },
-  
-  // Collaboration Spaces
-  { id: 'collab-1', name: 'Creative Space A', capacity: 10, amenities: ['Moveable Furniture', 'Whiteboard Walls'], status: 'available', x: 50, y: 270, width: 100, height: 70, floor: '2nd Floor' },
-  { id: 'collab-2', name: 'Creative Space B', capacity: 10, amenities: ['Standing Desks', 'Digital Board'], status: 'maintenance', x: 170, y: 270, width: 100, height: 70, floor: '2nd Floor' },
-  { id: 'collab-3', name: 'Brainstorm Zone', capacity: 8, amenities: ['Bean Bags', 'Whiteboard'], status: 'available', x: 290, y: 270, width: 100, height: 70, floor: '2nd Floor' },
-  
-  // Focus Rooms
-  { id: 'focus-1', name: 'Focus Pod 1', capacity: 2, amenities: ['Quiet Zone', 'Monitor'], status: 'available', x: 50, y: 360, width: 60, height: 50, floor: '2nd Floor' },
-  { id: 'focus-2', name: 'Focus Pod 2', capacity: 2, amenities: ['Quiet Zone', 'Monitor'], status: 'booked', x: 130, y: 360, width: 60, height: 50, floor: '2nd Floor' },
-  { id: 'focus-3', name: 'Focus Pod 3', capacity: 2, amenities: ['Quiet Zone', 'Monitor'], status: 'available', x: 210, y: 360, width: 60, height: 50, floor: '2nd Floor' },
-  { id: 'focus-4', name: 'Focus Pod 4', capacity: 2, amenities: ['Quiet Zone', 'Monitor'], status: 'partial', x: 290, y: 360, width: 60, height: 50, floor: '2nd Floor' },
-  { id: 'focus-5', name: 'Focus Pod 5', capacity: 2, amenities: ['Quiet Zone', 'Monitor'], status: 'available', x: 370, y: 360, width: 60, height: 50, floor: '2nd Floor' },
-  
-  // Training Rooms
-  { id: 'train-1', name: 'Training Room A', capacity: 25, amenities: ['Projector', 'Audio System', 'Tiered Seating'], status: 'available', x: 50, y: 430, width: 140, height: 90, floor: '2nd Floor' },
-  { id: 'train-2', name: 'Training Room B', capacity: 20, amenities: ['Smart Board', 'Audio System'], status: 'booked', x: 210, y: 430, width: 120, height: 90, floor: '2nd Floor' },
-  
-  // Wellness Rooms
-  { id: 'wellness-1', name: 'Meditation Room', capacity: 8, amenities: ['Yoga Mats', 'Dim Lighting'], status: 'available', x: 350, y: 430, width: 80, height: 60, floor: '2nd Floor' },
-  { id: 'wellness-2', name: 'Quiet Retreat', capacity: 4, amenities: ['Comfortable Seating', 'Plants'], status: 'available', x: 450, y: 430, width: 60, height: 60, floor: '2nd Floor' },
-  
-  // Additional Meeting Spaces
-  { id: 'casual-1', name: 'Café Meeting 1', capacity: 4, amenities: ['Coffee Bar', 'Casual Seating'], status: 'available', x: 450, y: 270, width: 60, height: 50, floor: '2nd Floor' },
-  { id: 'casual-2', name: 'Café Meeting 2', capacity: 4, amenities: ['Coffee Bar', 'Casual Seating'], status: 'partial', x: 450, y: 330, width: 60, height: 50, floor: '2nd Floor' },
-  
-  // Interview Rooms
-  { id: 'interview-1', name: 'Interview Room 1', capacity: 4, amenities: ['Professional Setup', 'Video Conference'], status: 'available', x: 410, y: 170, width: 65, height: 50, floor: '2nd Floor' },
-  { id: 'interview-2', name: 'Interview Room 2', capacity: 4, amenities: ['Professional Setup', 'Video Conference'], status: 'booked', x: 485, y: 170, width: 65, height: 50, floor: '2nd Floor' },
-  
-  // Executive Offices (when available)
-  { id: 'exec-1', name: 'Executive Office 1', capacity: 6, amenities: ['Private Bathroom', 'Premium Furniture'], status: 'maintenance', x: 470, y: 140, width: 75, height: 60, floor: '2nd Floor' },
-  { id: 'exec-2', name: 'Executive Office 2', capacity: 6, amenities: ['Private Bathroom', 'Premium Furniture'], status: 'available', x: 555, y: 140, width: 75, height: 60, floor: '2nd Floor' },
-  
-  // Gaming/Recreation
-  { id: 'rec-1', name: 'Game Room', capacity: 12, amenities: ['Gaming Console', 'Comfortable Seating'], status: 'available', x: 350, y: 510, width: 100, height: 60, floor: '2nd Floor' },
-  
-  // Presentation Rooms
-  { id: 'present-1', name: 'Demo Room', capacity: 15, amenities: ['Large Screen', 'Stage Area', 'Audio System'], status: 'available', x: 470, y: 510, width: 130, height: 60, floor: '2nd Floor' }
-];
+  // Top Row
+  { id: 'r1', name: 'Boardroom Alpha', capacity: 20, floor: '1', x: 40, y: 40, width: 130, height: 90, status: 'available', amenities: ['Projector', 'Whiteboard', 'Video Conferencing'] },
+  { id: 'r2', name: 'Executive Suite', capacity: 16, floor: '1', x: 180, y: 40, width: 120, height: 90, status: 'booked', amenities: ['Coffee Machine', 'Private Restroom'] },
+  { id: 'r3', name: 'Innovation Hub', capacity: 12, floor: '1', x: 310, y: 40, width: 120, height: 90, status: 'partial', amenities: ['Smartboard', 'VR Headsets'] },
+  { id: 'r22', name: 'Executive Office 1', capacity: 6, floor: '1', x: 440, y: 40, width: 90, height: 60, status: 'booked', amenities: ['Monitor', 'Docking Station'] },
+  { id: 'r23', name: 'Executive Office 2', capacity: 6, floor: '1', x: 540, y: 40, width: 90, height: 60, status: 'maintenance', amenities: ['Monitor', 'Docking Station'] },
 
+  // Second Row (Small Rooms)
+  { id: 'r4', name: 'Phone Booth 1', capacity: 1, floor: '1', x: 440, y: 110, width: 40, height: 40, status: 'available', amenities: ['Sound Proofing'] },
+  { id: 'r5', name: 'Phone Booth 2', capacity: 1, floor: '1', x: 490, y: 110, width: 40, height: 40, status: 'available', amenities: ['Sound Proofing'] },
+  { id: 'r6', name: 'Phone Booth 3', capacity: 1, floor: '1', x: 540, y: 110, width: 40, height: 40, status: 'booked', amenities: ['Sound Proofing'] },
+  { id: 'r7', name: 'Phone Booth 4', capacity: 1, floor: '1', x: 590, y: 110, width: 40, height: 40, status: 'available', amenities: ['Sound Proofing'] },
+
+  // Third Row (Sync Rooms)
+  { id: 'r8', name: 'Sync Room 1', capacity: 8, floor: '1', x: 40, y: 160, width: 90, height: 70, status: 'available', amenities: ['TV', 'Wireless Display'] },
+  { id: 'r9', name: 'Sync Room 2', capacity: 8, floor: '1', x: 140, y: 160, width: 90, height: 70, status: 'available', amenities: ['TV', 'Wireless Display'] },
+  { id: 'r10', name: 'Sync Room 3', capacity: 6, floor: '1', x: 240, y: 160, width: 90, height: 70, status: 'booked', amenities: ['TV', 'Wireless Display'] },
+  { id: 'r11', name: 'Sync Room 4', capacity: 6, floor: '1', x: 340, y: 160, width: 90, height: 70, status: 'available', amenities: ['TV', 'Wireless Display'] },
+  { id: 'r12', name: 'Interview Room', capacity: 4, floor: '1', x: 440, y: 160, width: 90, height: 70, status: 'partial', amenities: ['Camera', 'Microphone'] },
+
+  // Below Corridor
+  { id: 'r13', name: 'Creative Space A', capacity: 10, floor: '1', x: 40, y: 290, width: 120, height: 80, status: 'available', amenities: ['Whiteboard Wall', 'Bean Bags'] },
+  { id: 'r14', name: 'Creative Space B', capacity: 10, floor: '1', x: 170, y: 290, width: 120, height: 80, status: 'available', amenities: ['Whiteboard Wall', 'Art Supplies'] },
+  { id: 'r15', name: 'Brainstorm Zone', capacity: 8, floor: '1', x: 300, y: 290, width: 120, height: 80, status: 'booked', amenities: ['Sticky Notes', 'Markers'] },
+  { id: 'r24', name: 'Café Meeting 1', capacity: 4, floor: '1', x: 430, y: 290, width: 95, height: 55, status: 'available', amenities: ['Coffee', 'Snacks'] },
+  { id: 'r25', name: 'Café Meeting 2', capacity: 4, floor: '1', x: 535, y: 290, width: 95, height: 55, status: 'partial', amenities: ['Coffee', 'Snacks'] },
+
+  // Bottom Row (Focus & Training)
+  { id: 'r16', name: 'Focus Pod 1', capacity: 2, floor: '1', x: 40, y: 380, width: 60, height: 60, status: 'available', amenities: ['Desk', 'Power Outlet'] },
+  { id: 'r17', name: 'Focus Pod 2', capacity: 2, floor: '1', x: 110, y: 380, width: 60, height: 60, status: 'booked', amenities: ['Desk', 'Power Outlet'] },
+  { id: 'r18', name: 'Focus Pod 3', capacity: 2, floor: '1', x: 180, y: 380, width: 60, height: 60, status: 'available', amenities: ['Desk', 'Power Outlet'] },
+  { id: 'r19', name: 'Focus Pod 4', capacity: 2, floor: '1', x: 250, y: 380, width: 60, height: 60, status: 'available', amenities: ['Desk', 'Power Outlet'] },
+  { id: 'r20', name: 'Focus Pod 5', capacity: 2, floor: '1', x: 320, y: 380, width: 60, height: 60, status: 'maintenance', amenities: ['Desk', 'Power Outlet'] },
+
+  // Last Row
+  { id: 'r21', name: 'Training Room A', capacity: 25, floor: '1', x: 40, y: 450, width: 140, height: 90, status: 'available', amenities: ['Projector', 'Seats'] },
+  { id: 'r26', name: 'Training Room B', capacity: 20, floor: '1', x: 190, y: 450, width: 140, height: 90, status: 'partial', amenities: ['Projector', 'Seats'] },
+  { id: 'r27', name: 'Meditation Room', capacity: 8, floor: '1', x: 340, y: 450, width: 90, height: 90, status: 'available', amenities: ['Yoga Mats', 'Calm Music'] },
+  { id: 'r28', name: 'Quiet Retreat', capacity: 4, floor: '1', x: 440, y: 450, width: 90, height: 90, status: 'available', amenities: ['Comfortable Chairs'] },
+  { id: 'r29', name: 'Game Room', capacity: 12, floor: '1', x: 540, y: 380, width: 90, height: 80, status: 'booked', amenities: ['Console', 'Big Screen'] },
+  { id: 'r30', name: 'Demo Room', capacity: 15, floor: '1', x: 540, y: 470, width: 90, height: 70, status: 'available', amenities: ['Product Demos'] },
+];
 export const mockBookings: Booking[] = [
   {
     id: 'book-1',
@@ -91,7 +79,7 @@ export const generateTimeSlots = (date: Date) => {
       const endHour = endMinute >= 60 ? hour + 1 : hour;
       const adjustedMinute = endMinute >= 60 ? 0 : endMinute;
       const end = `${endHour.toString().padStart(2, '0')}:${adjustedMinute.toString().padStart(2, '0')}`;
-      
+
       slots.push({
         start,
         end,

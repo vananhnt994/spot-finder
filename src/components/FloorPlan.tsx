@@ -15,23 +15,25 @@ interface FloorPlanProps {
 const FloorPlan: React.FC<FloorPlanProps> = ({ rooms, selectedRoom, onRoomSelect }) => {
   const [hoveredRoom, setHoveredRoom] = useState<string | null>(null);
 
+  // src/components/FloorPlan.tsx
+
   const getStatusColor = (status: Room['status']) => {
     switch (status) {
-      case 'available': return 'fill-status-available';
-      case 'booked': return 'fill-status-booked';
-      case 'partial': return 'fill-status-partial';
-      case 'maintenance': return 'fill-status-maintenance';
-      default: return 'fill-muted';
+      case 'available': return 'fill-gray-700/80';
+      case 'booked': return 'fill-red-800/80';
+      case 'partial': return 'fill-yellow-800/80';
+      case 'maintenance': return 'fill-blue-800/80';
+      default: return 'fill-gray-600';
     }
   };
 
   const getStatusBorderColor = (status: Room['status']) => {
     switch (status) {
-      case 'available': return 'stroke-status-available';
-      case 'booked': return 'stroke-status-booked';
-      case 'partial': return 'stroke-status-partial';
-      case 'maintenance': return 'stroke-status-maintenance';
-      default: return 'stroke-muted';
+      case 'available': return 'stroke-gray-500';
+      case 'booked': return 'stroke-red-600';
+      case 'partial': return 'stroke-yellow-600';
+      case 'maintenance': return 'stroke-blue-600';
+      default: return 'stroke-gray-400';
     }
   };
 
@@ -43,25 +45,45 @@ const FloorPlan: React.FC<FloorPlanProps> = ({ rooms, selectedRoom, onRoomSelect
     if (amenity.toLowerCase().includes('audio') || amenity.toLowerCase().includes('sound')) return <Volume2 className="w-3 h-3" />;
     return null;
   };
-
   const getTextSize = (room: Room) => {
     const area = room.width * room.height;
-    if (area > 8000) return 'text-sm font-bold'; // Large rooms
-    if (area > 4000) return 'text-xs font-semibold'; // Medium rooms  
-    return 'text-[10px] font-medium'; // Small rooms
+    if (area > 6000) return 'text-xs';        // Große Räume
+    if (area > 3000) return 'text-[10px]';    // Mittlere Räume
+    if (area > 1000) return 'text-[8px]';     // Kleine Räume
+    return 'text-[7px]';                      // Sehr kleine Räume
   };
 
   const shouldShowCapacity = (room: Room) => {
-    return room.width > 50 && room.height > 40; // Only show capacity for rooms large enough
+    return room.width * room.height > 2000; // Kapazität nur für ausreichend große Räume anzeigen
   };
 
-  const getRoomDisplayName = (room: Room) => {
-    // Shorten long room names for better display
-    if (room.width < 80) {
-      return room.name.split(' ').slice(0, 2).join(' ');
-    }
-    return room.name;
-  };
+  // src/components/FloorPlan.tsx
+
+    const getRoomDisplayName = (room: Room): string => {
+      const area = room.width * room.height;
+      const name = room.name;
+
+      // Für sehr kleine Räume, Abkürzungen verwenden
+      if (area < 2500) {
+        if (name.toLowerCase().includes('phone booth')) return `PB ${name.split(' ').pop()}`;
+        if (name.toLowerCase().includes('focus pod')) return `Pod ${name.split(' ').pop()}`;
+        if (name.toLowerCase().includes('interview room')) return `IV ${name.split(' ').pop()}`;
+        if (name.toLowerCase().includes('executive office')) return `Exec ${name.split(' ').pop()}`;
+        // HINZUGEFÜGT: Regel für Café Meeting
+        if (name.toLowerCase().includes('café meeting')) return `Café ${name.split(' ').pop()}`;
+        return name.split(' ')[0];
+      }
+
+      // Für mittelgroße Räume, Namen kürzen
+      if (name.length > 15 && room.width < 100) {
+         const words = name.split(' ');
+         if (words.length > 2) {
+           return words.slice(0, 2).join(' ');
+         }
+      }
+
+      return name; // Voller Name für große Räume
+    };
 
   return (
     <div className="flex flex-col lg:flex-row gap-6 h-full">
@@ -73,10 +95,10 @@ const FloorPlan: React.FC<FloorPlanProps> = ({ rooms, selectedRoom, onRoomSelect
         </div>
         
         <div className="p-6 bg-gradient-to-br from-background to-muted/20">
-          <svg 
-            viewBox="0 0 650 600" 
-            className="w-full h-auto max-h-[600px] rounded-lg border-2 border-border shadow-inner"
-            style={{ backgroundColor: 'hsl(var(--background))' }}
+          <svg
+              viewBox="0 0 650 600"
+              className="w-full h-auto max-h-[600px] rounded-lg border-2 border-border shadow-inner"
+              style={{backgroundColor: 'hsl(var(--background))'}}
           >
             {/* Background grid */}
             <defs>
@@ -84,98 +106,121 @@ const FloorPlan: React.FC<FloorPlanProps> = ({ rooms, selectedRoom, onRoomSelect
                 <path d="M 20 0 L 0 0 0 20" fill="none" stroke="hsl(var(--border))" strokeWidth="0.5" opacity="0.3"/>
               </pattern>
             </defs>
-            <rect width="100%" height="100%" fill="url(#grid)" />
-            
-            {/* Building outline */}
-            <rect x="30" y="30" width="590" height="540" fill="none" stroke="hsl(var(--foreground))" strokeWidth="3" rx="8"/>
-            
-            {/* Corridor */}
-            <rect x="40" y="250" width="570" height="40" fill="hsl(var(--muted))" stroke="hsl(var(--border))" strokeWidth="1" rx="4"/>
-            <text x="320" y="275" textAnchor="middle" className="fill-muted-foreground text-sm font-medium">Main Corridor</text>
-            
+            <rect width="100%" height="100%" fill="url(#grid)"/>
+
+            {/* Main Corridor Separator */}
+            <g>
+              <rect
+                  x="50"
+                  y="250"
+                  width="585"
+                  height="2"
+                  className="fill-gray-300/50"
+                  rx="1"
+              />
+              <text
+                  x="342.5"
+                  y="260" // Nach unten verschoben für mehr Abstand
+                  textAnchor="middle"
+                  alignmentBaseline="middle"
+                  className="fill-gray-500 text-[10px] font-semibold tracking-widest"
+              >
+                MAIN CORRIDOR
+              </text>
+            </g>
             {/* Rooms */}
             {rooms.map((room) => (
-              <g key={room.id}>
-                <rect
-                  x={room.x}
-                  y={room.y}
-                  width={room.width}
-                  height={room.height}
-                  className={cn(
-                    getStatusColor(room.status),
-                    getStatusBorderColor(room.status),
-                    'cursor-pointer transition-all duration-300 hover:brightness-110',
-                    selectedRoom?.id === room.id && 'ring-2 ring-primary ring-offset-2',
-                    hoveredRoom === room.id && 'drop-shadow-lg'
-                  )}
-                  strokeWidth="2"
-                  rx="6"
-                  fill={`${hoveredRoom === room.id ? 'hsl(var(--primary) / 0.9)' : ''}`}
-                  onClick={() => onRoomSelect(room)}
-                  onMouseEnter={() => setHoveredRoom(room.id)}
-                  onMouseLeave={() => setHoveredRoom(null)}
-                />
-                
-                {/* Room label */}
-                <text
-                  x={room.x + room.width / 2}
-                  y={room.y + room.height / 2 + (shouldShowCapacity(room) ? -6 : 2)}
-                  textAnchor="middle"
-                  className={`fill-white ${getTextSize(room)} pointer-events-none`}
-                  style={{ textShadow: '1px 1px 2px rgba(0,0,0,0.8)' }}
+                <g key={room.id}
+                   onClick={() => onRoomSelect(room)}
+                   onMouseEnter={() => setHoveredRoom(room.id)}
+                   onMouseLeave={() => setHoveredRoom(null)}
+                   className="cursor-pointer"
                 >
-                  {getRoomDisplayName(room)}
-                </text>
-                
-                {/* Capacity indicator - only for larger rooms */}
-                {shouldShowCapacity(room) && (
-                  <text
-                    x={room.x + room.width / 2}
-                    y={room.y + room.height / 2 + 8}
-                    textAnchor="middle"
-                    className="fill-white text-[10px] opacity-90 pointer-events-none"
-                    style={{ textShadow: '1px 1px 2px rgba(0,0,0,0.8)' }}
+                  <rect
+                      x={room.x}
+                      y={room.y}
+                      width={room.width}
+                      height={room.height}
+                      className={cn(
+                          getStatusColor(room.status),
+                          'transition-all duration-300',
+                          selectedRoom?.id === room.id
+                              ? 'stroke-primary stroke-[3px]'
+                              : getStatusBorderColor(room.status) + ' stroke-2',
+                          hoveredRoom === room.id && 'brightness-125'
+                      )}
+                      rx="6"
+                  />
+
+                  // Innerhalb der rooms.map-Schleife in FloorPlan.tsx
+
+                  <foreignObject
+                      x={room.x}
+                      y={room.y}
+                      width={room.width}
+                      height={room.height}
+                      className="pointer-events-none"
                   >
-                    👥 {room.capacity}
-                  </text>
-                )}
-              </g>
+                    <div className={cn(
+                        "w-full h-full flex flex-col items-center justify-center text-center p-1 text-white font-bold overflow-hidden",
+                        getTextSize(room)
+                    )}
+                         style={{textShadow: '1px 1px 3px rgba(0,0,0,0.7)'}}
+                    >
+                      {/* HIER IST DIE ÄNDERUNG: getRoomDisplayName verwenden */}
+                      <span>{getRoomDisplayName(room)}</span>
+
+                      {shouldShowCapacity(room) && (
+                          <span className="mt-1 opacity-90 flex items-center">
+                          <Users className="w-3 h-3 mr-1"/> {room.capacity}
+                        </span>
+                      )}
+                    </div>
+                  </foreignObject>
+                </g>
             ))}
-            
+
             {/* Legend */}
-            <g transform="translate(40, 580)">
-              <rect x="0" y="-60" width="280" height="50" fill="hsl(var(--card))" stroke="hsl(var(--border))" strokeWidth="1" rx="4"/>
-              <text x="10" y="-45" className="fill-foreground text-xs font-semibold">Status Legend:</text>
-              
-              <circle cx="20" cy="-25" r="6" className="fill-status-available"/>
-              <text x="35" y="-20" className="fill-foreground text-xs">Available</text>
-              
-              <circle cx="90" cy="-25" r="6" className="fill-status-booked"/>
-              <text x="105" y="-20" className="fill-foreground text-xs">Booked</text>
-              
-              <circle cx="150" cy="-25" r="6" className="fill-status-partial"/>
-              <text x="165" y="-20" className="fill-foreground text-xs">Partial</text>
-              
-              <circle cx="210" cy="-25" r="6" className="fill-status-maintenance"/>
-              <text x="225" y="-20" className="fill-foreground text-xs">Maintenance</text>
-            </g>
+
           </svg>
+          {/* Status Legend (HTML) */}
+          <div className="mt-4 px-2 py-3 rounded-lg bg-card border border-border flex items-center justify-start gap-x-6">
+            <h4 className="text-sm font-semibold text-foreground pl-2">Status Legend:</h4>
+            <div className="flex items-center gap-x-4">
+              <div className="flex items-center gap-2">
+                <div className="w-3 h-3 rounded-full bg-gray-700"></div>
+                <span className="text-xs text-muted-foreground">Available</span>
+              </div>
+              <div className="flex items-center gap-2">
+                <div className="w-3 h-3 rounded-full bg-red-800"></div>
+                <span className="text-xs text-muted-foreground">Booked</span>
+              </div>
+              <div className="flex items-center gap-2">
+                <div className="w-3 h-3 rounded-full bg-yellow-800"></div>
+                <span className="text-xs text-muted-foreground">Partial</span>
+              </div>
+              <div className="flex items-center gap-2">
+                <div className="w-3 h-3 rounded-full bg-blue-800"></div>
+                <span className="text-xs text-muted-foreground">Maintenance</span>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
 
       {/* Room Details Panel */}
       {selectedRoom && (
-        <div className="w-full lg:w-80 xl:w-96">
-          <Card className="h-fit shadow-xl border-0 bg-gradient-to-br from-card to-card/90 backdrop-blur-sm">
-            <div className="p-6 space-y-4">
-              <div className="flex items-center justify-between">
-                <h3 className="text-xl font-bold text-foreground">{selectedRoom.name}</h3>
-                <Badge 
-                  variant="outline" 
-                  className={cn(
-                    'px-3 py-1 font-medium border-2',
-                    selectedRoom.status === 'available' && 'border-status-available text-status-available bg-status-available/10',
-                    selectedRoom.status === 'booked' && 'border-status-booked text-status-booked bg-status-booked/10',
+          <div className="w-full lg:w-80 xl:w-96">
+            <Card className="h-fit shadow-xl border-0 bg-gradient-to-br from-card to-card/90 backdrop-blur-sm">
+              <div className="p-6 space-y-4">
+                <div className="flex items-center justify-between">
+                  <h3 className="text-xl font-bold text-foreground">{selectedRoom.name}</h3>
+                  <Badge
+                      variant="outline"
+                      className={cn(
+                          'px-3 py-1 font-medium border-2',
+                          selectedRoom.status === 'available' && 'border-status-available text-status-available bg-status-available/10',
+                          selectedRoom.status === 'booked' && 'border-status-booked text-status-booked bg-status-booked/10',
                     selectedRoom.status === 'partial' && 'border-status-partial text-status-partial bg-status-partial/10',
                     selectedRoom.status === 'maintenance' && 'border-status-maintenance text-status-maintenance bg-status-maintenance/10'
                   )}
